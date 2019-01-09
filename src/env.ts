@@ -32,13 +32,6 @@ function setupEnv(): IEnv {
     process.exit(1);
   }
 
-  if (!process.env.DISCORD_API_KEY) {
-    logger.error(
-      "DISCORD_API_KEY not found in environment. This should be the Discord bot token. Exiting..."
-    );
-    process.exit(1);
-  }
-
   const ownerId: string = process.env.OWNER_ID || "";
   const botToken: string = process.env.DISCORD_API_KEY || "";
 

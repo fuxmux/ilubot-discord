@@ -1,0 +1,21 @@
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "ilubot",
+    "password": "fart2",
+    "database": "ilubot",
+    "synchronize": false,
+    "migrationsRun": true,
+    "logging": "all",
+    "entities": [
+        "dist/entity/*.js" 
+    ],
+    "migrations": [
+        "dist/migration/*.js"
+    ],
+    "cli": {
+        "entitiesDir": "src/entity",
+        "migrationsDir": "src/migration"
+    }
+}

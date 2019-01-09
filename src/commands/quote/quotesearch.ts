@@ -34,6 +34,10 @@ export default class QuoteSearchCommand extends IluBotCommand {
 
       const query = await this.getQuotes(phrase);
 
+      if (!query) {
+        return message.channel.send("Nani!?");
+      }
+
       return await message.channel.send({
         embed: {
           title: `Results: ${phrase}`,
@@ -45,31 +49,35 @@ export default class QuoteSearchCommand extends IluBotCommand {
     }
   }
 
-  private async getQuotes(phrase) {
+  private async getQuotes(phrase: string) {
     const query = await this.client.db.manager
       .createQueryBuilder(Quote, "quote")
       .where("quote.content like :content", { content: "%" + phrase + "%" })
-      .limit(10)
+      .limit(5)
       .getMany();
-
-    console.log(query);
 
     return this.formatQuote(query);
   }
 
   private formatQuote(quotes) {
-    if (quotes.length == 0) return [{ name: "NANI!?", value: "No results" }];
+    if (quotes.length == 0) return false;
 
-    let results = [];
+    let results: { name: string, value: string }[] = [];
 
     for (let i = 0; i < quotes.length; i++) {
-      const dateFormat = moment(quotes[i].createdAt).format("MM-DD-YYYY");
-      const truncateContent = quotes[i].content.substring(0,100)
+      const dateFormat = moment(quotes[i].createdAt).format("MM/DD/YY");
+
+      let content = quotes[i].content;
+
+      if (content.length >= 200) {
+        content = content.substring(0, 200) + "...";
+      }
+
       results.push({
         name: `Quote ${quotes[i].id} - added by ${
           quotes[i].authorUsername
         } on ${dateFormat}`,
-        value: `<${quotes[i].quoteeUsername}> ${truncateContent}`
+        value: `<${quotes[i].quoteeUsername}> ${content}`
       });
     }
     return results;

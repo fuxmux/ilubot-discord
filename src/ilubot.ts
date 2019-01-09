@@ -12,7 +12,7 @@ import winston = require("winston");
 const { combine, timestamp, printf, colorize } = format;
 
 export const logger = createLogger({
-  level: 'info',
+  level: "info",
   format: combine(
     timestamp(),
     colorize(),
@@ -20,7 +20,6 @@ export const logger = createLogger({
   ),
   transports: [new transports.Console()]
 });
-
 
 export type IlubotOptions = CommandoClientOptions & {
   token?: string;
@@ -83,7 +82,10 @@ export class IluBot extends CommandoClient {
     try {
       this.db = await createConnection();
     } catch (e) {
-      logger.error(`Encounted error signing in to postgres. Exiting. Error: ${e.message}`)
+      logger.error(
+        `Encounted error signing in to postgres. Exiting. Error: ${e.message}`
+      );
+      process.exit(1);
     }
   }
 

@@ -36,6 +36,7 @@ latest.dump
 /node_modules
 
 database.sqlite
+clambot.irc.synirc.net.db
 .env
 
 Dockerfile
